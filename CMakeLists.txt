@@ -5,7 +5,40 @@ cmake_minimum_required(VERSION 3.11.0)
 
 set(NAME LveEngine)
 
-set(CXX_STANDARD,20)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+
+# Enable high warnings and strict standards
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+  add_compile_options(
+          -Wall                # Enable all common warnings
+          -Wextra              # Enable extra warnings
+          -Werror              # Treat warnings as errors
+          -Wpedantic           # Enforce strict ISO C++ compliance
+          -Wconversion         # Warn on type conversions that may be problematic
+          -Wshadow             # Warn when local variables shadow others
+          -Wnon-virtual-dtor   # Warn if a class with virtual functions lacks a virtual destructor
+          -Wold-style-cast     # Warn on old C-style casts
+          -Wnull-dereference   # Warn on null pointer dereference
+          -fno-exceptions      # Disable exceptions (optional, depends on project requirements)
+          -fno-rtti            # Disable RTTI (if Vulkan does not require dynamic_cast or typeid)
+          -O3                  # Optimize for maximum performance
+  )
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  add_compile_options(
+          /W4                 # Enable highest warning level
+          /WX                 # Treat warnings as errors
+          /permissive-        # Enforce ISO C++ compliance
+          /EHsc               # Ensure standard exception handling
+          /Zc:__cplusplus     # Report correct C++ standard version
+          /std:c++20          # Set C++20 standard
+          /O2                 # Optimize for speed
+          /guard:cf           # Enable control flow guard
+  )
+endif()
+
 project(${NAME} VERSION 0.23.0)
 
 # 1. Set VULKAN_SDK_PATH in .env.cmake to target specific vulkan version
