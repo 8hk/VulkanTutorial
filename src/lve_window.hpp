@@ -21,11 +21,12 @@ namespace lve
     public:
         LveWindow(int w,int h,string name);
         ~LveWindow();
-        
-       bool shouldClose() {return glfwWindowShouldClose(window);};
 
        LveWindow(const LveWindow&) = delete;
        LveWindow &operator = (const LveWindow &) = delete;
+       
+       bool shouldClose();
+       bool validateInputs();
     };
     
     

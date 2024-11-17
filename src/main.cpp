@@ -3,17 +3,15 @@
 #include <iostream>
 #include <stdexcept>
 int main()
+try
 {
     lve::FirstApp app{};
-    try
-    {
-        app.run();
-    }
-    catch(const std::exception& e)
-    {
-        std::cerr << e.what() << '\n';
-        return EXIT_FAILURE;
-    }
+    app.run();
+
     return EXIT_SUCCESS;
 }
-
+catch (const std::exception &e)
+{
+    std::cerr << e.what() << '\n';
+    return EXIT_FAILURE;
+}
