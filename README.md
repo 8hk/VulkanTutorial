@@ -33,3 +33,4 @@ D:\Tools\VulkanSDK\1.3.296.0\Bin\glslc.exe shaders\simple_shader.vert -o shaders
 ```
 TODOs:
 1. Update pipeline class wrt RAII. 
+2. Update path retrieval logic at first_app.hpp
