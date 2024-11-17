@@ -31,6 +31,10 @@ Example usage for windows:
 ```
 D:\Tools\VulkanSDK\1.3.296.0\Bin\glslc.exe shaders\simple_shader.vert -o shaders\simple_shader.vert.spv
 ```
-TODOs:
+### TODOs:
+
 1. Update pipeline class wrt RAII. 
 2. Update path retrieval logic at first_app.hpp
+3. Create unit tests
+4. Create workflow with Actions
+5. Create a kanban project from Projects
