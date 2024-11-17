@@ -4,14 +4,17 @@
 #include <filesystem>
 #include <iostream>
 #include <fstream>
+#include "CustomFileOperation/FileReader.h"
+#include <memory>
 namespace lve {
 class LvePipeline {
  private:
-  static std::vector<char> readFile(const std::string &filePath);
-  void createGraphicsPipeline(const std::string &vertFilePath, const std::string &fragFilePath);
+  void createGraphicsPipeline();
+  std::unique_ptr<FileReader>vertFileReader;
+  std::unique_ptr<FileReader>fragFileReader;
  public:
   LvePipeline(const std::string &vertFilePath, const std::string &fragFilePath);
-  ~LvePipeline();
+  virtual ~LvePipeline();
 
   //copy ctor delete
   LvePipeline(const LvePipeline &pipeline) = delete;

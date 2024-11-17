@@ -56,9 +56,8 @@ if(NOT TINYOBJ_PATH)
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
-
-add_executable(${PROJECT_NAME} ${SOURCES})
-
+file(GLOB_RECURSE SOURCES2 ${PROJECT_SOURCE_DIR}/src/CustomFileOperation/*.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES} ${SOURCES2})
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
@@ -77,6 +76,7 @@ if(WIN32)
 
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/CustomFileOperation
     ${Vulkan_INCLUDE_DIRS}
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}
@@ -93,6 +93,7 @@ elseif(UNIX)
   message(STATUS "CREATING BUILD FOR UNIX")
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/src/CustomFileOperation
     ${TINYOBJ_PATH}
   )
   target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES})
