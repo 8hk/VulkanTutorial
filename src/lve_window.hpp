@@ -27,6 +27,7 @@ class LveWindow {
 
   bool shouldClose();
   bool validateInputs();
+  void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
 };
 
 }  // namespace lve
