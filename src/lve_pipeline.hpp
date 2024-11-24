@@ -10,17 +10,29 @@
 #include <vulkan/vulkan_core.h>
 namespace lve {
 struct PipelineConfigInfo {
+  VkViewport viewport;
+  VkRect2D scissor;
+  VkPipelineViewportStateCreateInfo viewportInfo;
   VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+  VkPipelineRasterizationStateCreateInfo rasterizationInfo;
+  VkPipelineMultisampleStateCreateInfo multisampleInfo;
+  VkPipelineColorBlendAttachmentState colorBlendAttachment;
+  VkPipelineColorBlendStateCreateInfo colorBlendInfo;
+  VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+  VkPipelineLayout pipelineLayout = nullptr;
+  VkRenderPass renderPass = nullptr;
+  uint32_t subpass = 0;
 };
+
 
 class LvePipeline {
  private:
-  void createGraphicsPipeline();
+  void createGraphicsPipeline(const PipelineConfigInfo &configInfo);
   void createShaderModule(const std::vector<char> &code, VkShaderModule * shaderModule);
 
   std::unique_ptr<FileReader>vertFileReader;
   std::unique_ptr<FileReader>fragFileReader;
-  std::unique_ptr<PipelineConfigInfo> configInfo;
+  //std::unique_ptr<PipelineConfigInfo> configInfo;
   std::unique_ptr<LveDevice> lveDevice;
   VkPipeline graphicsPipeline;
   VkShaderModule vertShaderModule;
