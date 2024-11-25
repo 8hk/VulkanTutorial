@@ -12,7 +12,6 @@ namespace lve {
 struct PipelineConfigInfo {
   VkViewport viewport;
   VkRect2D scissor;
-  VkPipelineViewportStateCreateInfo viewportInfo;
   VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
   VkPipelineRasterizationStateCreateInfo rasterizationInfo;
   VkPipelineMultisampleStateCreateInfo multisampleInfo;
@@ -32,7 +31,6 @@ class LvePipeline {
 
   std::unique_ptr<FileReader>vertFileReader;
   std::unique_ptr<FileReader>fragFileReader;
-  //std::unique_ptr<PipelineConfigInfo> configInfo;
   std::unique_ptr<LveDevice> lveDevice;
   VkPipeline graphicsPipeline;
   VkShaderModule vertShaderModule;
@@ -41,7 +39,7 @@ class LvePipeline {
  public:
   LvePipeline(const LveDevice &device,const std::string &vertFilePath, const std::string &fragFilePath, const PipelineConfigInfo& configInfo_);
   virtual ~LvePipeline();
-
+  void bind(VkCommandBuffer commandBuffer);
   static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
 
   //copy ctor delete
