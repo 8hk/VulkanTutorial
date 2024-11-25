@@ -46,6 +46,21 @@ In this tutorial,
 
 You can access the branch from [here](https://github.com/8hk/VulkanTutorial/tree/tutorial_4)
 
+
+### 5th Tutorial
+
+In this tutorial,
+1. Fixed pipelineLayout and renderPass errors.
+2. Swap Chain class is introduced. 
+3. lvePipeline in firs_app changed to unique pointer.
+4. bind method implemented in pipeline
+5. createCommandBuffers and drawFrame methods have been implemented.
+6. first triangle has been draw. 
+7. compiling shaders in cmake file
+
+
+You can access the branch from [here](https://github.com/8hk/VulkanTutorial/tree/tutorial_5)
+
 ### TODOs:
 
 1. ~~Update pipeline class wrt RAII.~~
@@ -53,5 +68,11 @@ You can access the branch from [here](https://github.com/8hk/VulkanTutorial/tree
 3. Create unit tests
 4. Create workflow with Actions
 5. Create a kanban project from Projects
-6. Fix null graphics pipelineLayout 
-7. Fix null graphics renderPass 
+6. ~~Fix null graphics pipelineLayout~~
+7. ~~Fix null graphics renderPass~~ 
+8. runtime exceptions need to be handled in better way
+
+### Cmake Commands
+
+- cmake --build . --verbose
+- cmake clean . 

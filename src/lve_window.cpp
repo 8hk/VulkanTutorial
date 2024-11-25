@@ -36,4 +36,5 @@ void LveWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) 
   }
 
 }
+
 }  // namespace lve

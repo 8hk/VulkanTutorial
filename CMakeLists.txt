@@ -147,23 +147,51 @@ find_program(GLSL_VALIDATOR glslangValidator HINTS
   $ENV{VULKAN_SDK}/Bin32/
 )
 
+function(add_shaders TARGET_NAME)
+  set(SHADER_SOURCE_FILES ${ARGN}) # Remaining arguments are shader source files
+
+  # Validate that source files have been passed
+  list(LENGTH SHADER_SOURCE_FILES FILE_COUNT)
+  if(FILE_COUNT EQUAL 0)
+    message(FATAL_ERROR "Cannot create a shaders target without any source files")
+  endif()
+
+  set(SHADER_PRODUCTS) # List to store generated shader products
+
+  foreach(SHADER_SOURCE IN LISTS SHADER_SOURCE_FILES)
+    cmake_path(ABSOLUTE_PATH SHADER_SOURCE NORMALIZE)
+    cmake_path(GET SHADER_SOURCE FILENAME SHADER_NAME)
+
+    set(SHADER_OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/src/shaders/${SHADER_NAME}.spv")
+    list(APPEND SHADER_PRODUCTS "${SHADER_OUTPUT}")
+
+    add_custom_command(
+            OUTPUT "${SHADER_OUTPUT}"
+            COMMAND Vulkan::glslc "${SHADER_SOURCE}" -o "${SHADER_OUTPUT}"
+            COMMENT "Compiling shader: ${SHADER_SOURCE}"
+            DEPENDS "${SHADER_SOURCE}"
+    )
+  endforeach()
+
+  # Add a target that depends on all shader outputs
+  add_custom_target(${TARGET_NAME}
+          ALL
+          DEPENDS ${SHADER_PRODUCTS}
+          COMMENT "Building all shaders for target [${TARGET_NAME}]"
+  )
+endfunction()
+find_program(GLSLC_EXECUTABLE NAMES glslc HINTS ${Vulkan_GLSLC_PATH})
+if (NOT GLSLC_EXECUTABLE)
+  message(FATAL_ERROR "glslc (Vulkan shader compiler) not found.")
+endif()
+
+add_executable(Vulkan::glslc IMPORTED)
+set_target_properties(Vulkan::glslc PROPERTIES IMPORTED_LOCATION "${GLSLC_EXECUTABLE}")
+
+
+add_shaders(LveEngines src/shaders/simple_shader.vert src/shaders/simple_shader.frag)
 # get all .vert and .frag files in shaders directory
 file(GLOB_RECURSE GLSL_SOURCE_FILES
   "${PROJECT_SOURCE_DIR}/src/shaders/*.frag"
   "${PROJECT_SOURCE_DIR}/src/shaders/*.vert"
-)
-
-foreach(GLSL ${GLSL_SOURCE_FILES})
-  get_filename_component(FILE_NAME ${GLSL} NAME)
-  set(SPIRV "${PROJECT_SOURCE_DIR}/src/shaders/${FILE_NAME}.spv")
-  add_custom_command(
-    OUTPUT ${SPIRV}
-    COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
-    DEPENDS ${GLSL})
-  list(APPEND SPIRV_BINARY_FILES ${SPIRV})
-endforeach(GLSL)
-
-add_custom_target(
-  Shaders
-  DEPENDS ${SPIRV_BINARY_FILES}
 )
