@@ -50,11 +50,25 @@ void DestroyDebugUtilsMessengerEXT(
 
 // class member functions
 LveDevice::LveDevice(LveWindow &window) : window{window} {
+  //create vulkan instance
+  //init vulkan lib and connection between app and Vulkan
   createInstance();
+
+  //setup validation layer to check errors
+  //disable it for release build for increasing perfomance
   setupDebugMessenger();
+
+  //create connection between window and vulkan
   createSurface();
+
+  //pick physical device that app is going to use.
   pickPhysicalDevice();
+
+  //define what features of physical device is going to use
   createLogicalDevice();
+
+  //set command pool
+  //allocate command buffer
   createCommandPool();
 }
 
